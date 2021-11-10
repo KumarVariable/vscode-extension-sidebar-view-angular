@@ -1,0 +1,17 @@
+*
+!dist
+.vscode
+e2e
+ext-src
+node_modules
+src
+.vscode/**
+.vscode-test/**
+src/**
+.gitignore
+.yarnrc
+vsc-extension-quickstart.md
+**/tsconfig.json
+**/.eslintrc.json
+**/*.map
+**/*.ts
