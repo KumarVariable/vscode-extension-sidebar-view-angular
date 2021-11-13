@@ -10,11 +10,13 @@ class WebPanel implements vscode.WebviewViewProvider {
 
   private _view?: vscode.WebviewView;
   private readonly extensionPath: string;
+  private readonly extensionUri: vscode.Uri;
   private readonly builtAppFolder: string;
   //private disposables: vscode.Disposable[] = [];
 
-  constructor(extensionPath: string) {
-    this.extensionPath = extensionPath;
+  constructor(context: vscode.ExtensionContext) {
+    this.extensionPath = context.extensionPath;
+    this.extensionUri = context.extensionUri;
     this.builtAppFolder = 'dist';
   }
 
@@ -36,6 +38,11 @@ class WebPanel implements vscode.WebviewViewProvider {
     webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
   }
   private _getHtmlForWebview(webview: vscode.Webview): string {
+
+    const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist', 'vscode-extension-sidebar-view-angular', 'main.js'));
+
+
+
     // path to dist folder
     const appDistPath = path.join(this.extensionPath, 'dist','vscode-extension-sidebar-view-angular');
     const appDistPathUri = vscode.Uri.file(appDistPath);
@@ -55,6 +62,11 @@ class WebPanel implements vscode.WebviewViewProvider {
       `<base href="${String(baseUri)}/">`
     );
 
+    indexHtml = indexHtml.replace(
+      '<script src="/">',
+      `<script src="${scriptUri}/">`
+    );
+
     return indexHtml;
   }
 }
@@ -64,7 +76,7 @@ class WebPanel implements vscode.WebviewViewProvider {
  * @param context vscode extension context
  */
 export function activate(context: vscode.ExtensionContext) {
-  const provider = new WebPanel(context.extensionPath);
+  const provider = new WebPanel(context);
 
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider(WebPanel.viewType, provider)

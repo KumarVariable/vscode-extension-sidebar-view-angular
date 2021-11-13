@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'vscode-extension-sidebar-view-angular';
+
+  constructor() {
+    console.log('---------- app component loaded------------'); // Logs false for default environment
+  }
+
+  title = 'angular sidebar vscode';
 }

@@ -77,6 +77,10 @@
               "browserTarget": "vscode-extension-sidebar-view-angular:build:development"
             }
           },
+          "options": {
+            "browserTarget": "vscode-extension-sidebar-view-angular:build",
+            "proxyConfig": "src/proxy.conf.json"
+          },  
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
