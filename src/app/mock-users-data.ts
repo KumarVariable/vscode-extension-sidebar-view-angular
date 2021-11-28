@@ -1,5 +1,10 @@
 import { User } from './user';
 
+/**
+ * Define mock users.
+ * Create USERS constant as an array of 10 users and
+ * export this constant
+ */
 export const USERS: User[] = [
   { id: 11, name: 'User 1' },
   { id: 12, name: 'User 2' },
