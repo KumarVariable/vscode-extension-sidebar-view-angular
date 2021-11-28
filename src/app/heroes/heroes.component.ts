@@ -1,25 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import { Hero } from '../hero';
 
-/**
- * selector — the component's CSS element selector. Matches the name of HTML element <app-heroes>.
- * templateUrl — the location of the component's template file.
- * styleUrls — the location of the component's private CSS styles.
- */
 @Component({
   selector: 'app-heroes',
   templateUrl: './heroes.component.html',
-  styleUrls: ['./heroes.component.css'],
+  styleUrls: ['./heroes.component.css']
 })
 export class HeroesComponent implements OnInit {
-  constructor() {
-    console.log('Load Hero Component');
+  /*
+  hero = 'Windstorm';
+  */
+  hero: Hero = {
+    id: 1,
+    name: 'Windstorm'
+  };
+
+  constructor() { }
+
+  ngOnInit(): void {
   }
 
-  /**
-   * Lifecycle hook.Place to initlialization logic
-   * Angular calls ngOnInit() shortly after creating a component).
-   */
-  ngOnInit(): void {}
-
-  heroes = 'Windstorm';
 }
