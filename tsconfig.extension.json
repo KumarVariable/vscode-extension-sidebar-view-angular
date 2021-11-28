@@ -2,7 +2,7 @@
     "compilerOptions": {
       "module": "commonjs",
       "target": "es6",
-      "outDir": "dist/vscode-extension-sidebar-view-angular",
+      "outDir": "dist/apps/vs-code",
       "lib": ["es6", "dom"],
       "sourceMap": true,
       "rootDir": ".",

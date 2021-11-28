@@ -18,7 +18,7 @@
   "activationEvents": [
     "onView:angular.sidebar.view"
   ],
-  "main": "./dist/vscode-extension-sidebar-view-angular/extension-src/extension.js",
+  "main": "./dist/apps/vs-code/extension-src/extension.js",
   "contributes": {
     "viewsContainers": {
       "activitybar": [

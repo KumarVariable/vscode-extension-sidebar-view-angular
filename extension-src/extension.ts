@@ -41,10 +41,9 @@ class WebPanel implements vscode.WebviewViewProvider {
 
     const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist', 'vscode-extension-sidebar-view-angular', 'main.js'));
 
-
-
+    console.log('scriptUri ' + scriptUri);
     // path to dist folder
-    const appDistPath = path.join(this.extensionPath, 'dist','vscode-extension-sidebar-view-angular');
+    const appDistPath = path.join(this.extensionPath, 'dist','apps','vs-code','angular');
     const appDistPathUri = vscode.Uri.file(appDistPath);
 
     // path as uri
@@ -56,17 +55,24 @@ class WebPanel implements vscode.WebviewViewProvider {
     // read index file from file system
     let indexHtml = fs.readFileSync(indexPath, { encoding: 'utf8' });
 
+    // 1. Get all links prefixed by href or src 
+    const matchLinks = /(href|src)="([^"]*)"/g;
+
+    // 2. Transform the result of the regex into a vscode's URI format
+    const toUri = (_:any, prefix: 'href' | 'src', link: string) => {
+      // For 
+      if (link === '#') {
+        return `${prefix}="${link}"`;
+      }
+      // For scripts & links
+      const resourcePath = path.join(appDistPath ,link);
+      const uri = vscode.Uri.file(resourcePath);
+      return `${prefix}="${webview['asWebviewUri'](uri)}"`;
+    };
+
     // update the base URI tag
-    indexHtml = indexHtml.replace(
-      '<base href="/">',
-      `<base href="${String(baseUri)}/">`
-    );
-
-    indexHtml = indexHtml.replace(
-      '<script src="/">',
-      `<script src="${scriptUri}/">`
-    );
-
+    indexHtml = indexHtml.replace(matchLinks, toUri);
+ 
     return indexHtml;
   }
 }
