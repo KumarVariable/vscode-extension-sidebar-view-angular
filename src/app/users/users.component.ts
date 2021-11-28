@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../user';
 import { USERS } from '../mock-users-data';
 import { UserService } from '../user.service';
+import { AppMessageService } from '../app-message.service';
 
 @Component({
   selector: 'app-users',
@@ -17,17 +18,22 @@ export class UsersComponent implements OnInit {
   users: User[] = [];
 
   // Inject User Service (Dependency Injection) into User component
-  constructor(private userService: UserService) {
-    console.log('load and inject user service into user component');
+  constructor(
+    private userService: UserService,
+    private messageService: AppMessageService
+  ) {
+    console.log(
+      'load and inject user service, message service into user component'
+    );
   }
 
   onSelect(user: User): void {
     this.selectedUser = user;
   }
 
-  // get users from user service
+  // get users from user service by subscribing.
   getUsers(): void {
-    this.users = this.userService.getUsers();
+    this.userService.getUsers().subscribe((users) => (this.users = users));
   }
 
   // called by angular component after constructing user component instance
