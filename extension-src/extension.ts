@@ -1,3 +1,7 @@
+/**
+ * Extension Source Code.
+ * This class is the entry point for our custom extension.
+ */
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
@@ -12,7 +16,6 @@ class WebPanel implements vscode.WebviewViewProvider {
   private readonly extensionPath: string;
   private readonly extensionUri: vscode.Uri;
   private readonly builtAppFolder: string;
-  //private disposables: vscode.Disposable[] = [];
 
   constructor(context: vscode.ExtensionContext) {
     this.extensionPath = context.extensionPath;
@@ -38,12 +41,24 @@ class WebPanel implements vscode.WebviewViewProvider {
     webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
   }
   private _getHtmlForWebview(webview: vscode.Webview): string {
-
-    const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist', 'vscode-extension-sidebar-view-angular', 'main.js'));
+    const scriptUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(
+        this.extensionUri,
+        'dist',
+        'vscode-extension-sidebar-view-angular',
+        'main.js'
+      )
+    );
 
     console.log('scriptUri ' + scriptUri);
     // path to dist folder
-    const appDistPath = path.join(this.extensionPath, 'dist','apps','vs-code','angular');
+    const appDistPath = path.join(
+      this.extensionPath,
+      'dist',
+      'apps',
+      'vs-code',
+      'angular'
+    );
     const appDistPathUri = vscode.Uri.file(appDistPath);
 
     // path as uri
@@ -55,24 +70,27 @@ class WebPanel implements vscode.WebviewViewProvider {
     // read index file from file system
     let indexHtml = fs.readFileSync(indexPath, { encoding: 'utf8' });
 
-    // 1. Get all links prefixed by href or src 
+    // 1. Get all links prefixed by href or src
     const matchLinks = /(href|src)="([^"]*)"/g;
 
     // 2. Transform the result of the regex into a vscode's URI format
-    const toUri = (_:any, prefix: 'href' | 'src', link: string) => {
-      // For 
+    const toUri = (_: any, prefix: 'href' | 'src', link: string) => {
+      
       if (link === '#') {
         return `${prefix}="${link}"`;
       }
       // For scripts & links
-      const resourcePath = path.join(appDistPath ,link);
+      const resourcePath = path.join(appDistPath, link);
       const uri = vscode.Uri.file(resourcePath);
       return `${prefix}="${webview['asWebviewUri'](uri)}"`;
     };
 
-    // update the base URI tag
+    /**  update the base URI tag for index.html at runtime
+     * index.html will be found inside 'src/app' and
+     * 'dist/angular' after running ng build
+     */
     indexHtml = indexHtml.replace(matchLinks, toUri);
- 
+
     return indexHtml;
   }
 }
