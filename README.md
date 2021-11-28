@@ -10,7 +10,7 @@ This project was generated with [Angular CLI] .
 4. Integration of Feature component,services for User Component in Angular application.
 5. Integrate Navigation - Router module in Angular application.
 6. Add `{ useHash: true }` in Router module because the angular application is running inside vscode-webview instead od running on server.
-7. Replace `<base href='/'>` with `<base href='#'>` inside src/app/index.html to resolve 'Unhandled Navigation Error' for running angular application inside vscode extension.
+7. Replace `<base href='/'>` with `<base href='#'>` inside *src/app/index.html* to resolve ***Unhandled Navigation Error*** for running angular application inside vscode extension.
 
 ## Project Environment
 
