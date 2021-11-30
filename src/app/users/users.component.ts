@@ -20,7 +20,8 @@ export class UsersComponent implements OnInit {
   // Inject User Service (Dependency Injection) into User component
   constructor(
     private userService: UserService,
-    private messageService: AppMessageService
+    private messageService: AppMessageService,
+    private httpService: HttpClient
   ) {
     console.log(
       'load and inject user service, message service into user component'
@@ -39,5 +40,6 @@ export class UsersComponent implements OnInit {
   // called by angular component after constructing user component instance
   ngOnInit(): void {
     this.getUsers();
+    this.
   }
 }

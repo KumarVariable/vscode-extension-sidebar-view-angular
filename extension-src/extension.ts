@@ -13,9 +13,9 @@ class WebPanel implements vscode.WebviewViewProvider {
   public static readonly viewType = 'angular.sidebar.view';
 
   private _view?: vscode.WebviewView;
-  private readonly extensionPath: string;
-  private readonly extensionUri: vscode.Uri;
-  private readonly builtAppFolder: string;
+  public readonly extensionPath: string;
+  public readonly extensionUri: vscode.Uri;
+  public readonly builtAppFolder: string;
 
   constructor(context: vscode.ExtensionContext) {
     this.extensionPath = context.extensionPath;
@@ -41,16 +41,7 @@ class WebPanel implements vscode.WebviewViewProvider {
     webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
   }
   private _getHtmlForWebview(webview: vscode.Webview): string {
-    const scriptUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(
-        this.extensionUri,
-        'dist',
-        'vscode-extension-sidebar-view-angular',
-        'main.js'
-      )
-    );
-
-    console.log('scriptUri ' + scriptUri);
+    
     // path to dist folder
     const appDistPath = path.join(
       this.extensionPath,
@@ -59,10 +50,8 @@ class WebPanel implements vscode.WebviewViewProvider {
       'vs-code',
       'angular'
     );
-    const appDistPathUri = vscode.Uri.file(appDistPath);
 
-    // path as uri
-    const baseUri = webview.asWebviewUri(appDistPathUri);
+    const appDistPathUri = vscode.Uri.file(appDistPath);
 
     // get path to index.html file from dist folder
     const indexPath = path.join(appDistPath, 'index.html');
@@ -91,6 +80,8 @@ class WebPanel implements vscode.WebviewViewProvider {
      */
     indexHtml = indexHtml.replace(matchLinks, toUri);
 
+    writeToFile(this.extensionPath);
+
     return indexHtml;
   }
 }
@@ -106,3 +97,34 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.registerWebviewViewProvider(WebPanel.viewType, provider)
   );
 }
+
+
+function writeToFile(extensionPath: string) {
+  
+  const vscodeLocationPath  = path.join(extensionPath,'dist','apps','vs-code','angular','vscodeLocation.json');
+
+  const applicationBasePath  = path.join(extensionPath,'dist','apps','vs-code','angular');
+
+  const applicationAssetsPath  = path.join(extensionPath,'dist','apps','vs-code','angular','assets');
+
+  let vscodeLocation = { 
+    vscodeJsonFile: vscodeLocationPath,
+    applicationBasePath: applicationBasePath, 
+    applicationAssetsPath: applicationAssetsPath,
+    department: 'English',
+    car: 'Honda' 
+};
+ 
+let data = JSON.stringify(vscodeLocation, null, 2);
+
+fs.writeFile(vscodeLocationPath, data, (err) => {
+  if (err) {
+    throw err;
+  } else {
+    console.log('Data written to file');
+  }
+  
+});
+
+}
+
