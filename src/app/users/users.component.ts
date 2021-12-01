@@ -4,6 +4,7 @@ import { USERS } from '../mock-users-data';
 import { UserService } from '../user.service';
 import { AppMessageService } from '../app-message.service';
 
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -17,11 +18,12 @@ export class UsersComponent implements OnInit {
   // from mock-users-data.ts
   users: User[] = [];
 
+  localPaths?: string [];
+
   // Inject User Service (Dependency Injection) into User component
   constructor(
     private userService: UserService,
-    private messageService: AppMessageService,
-    private httpService: HttpClient
+    private messageService: AppMessageService
   ) {
     console.log(
       'load and inject user service, message service into user component'
@@ -40,6 +42,5 @@ export class UsersComponent implements OnInit {
   // called by angular component after constructing user component instance
   ngOnInit(): void {
     this.getUsers();
-    this.
   }
 }
