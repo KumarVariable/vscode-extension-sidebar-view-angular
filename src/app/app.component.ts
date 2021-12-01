@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import * as data from '../app/vscodeSpecificLocation.json'
+import * as data from '../app/vscodeSpecificLocation.json';
 
 /**
  * Application (root) component - <app-root> declared inside src/app/index.html
