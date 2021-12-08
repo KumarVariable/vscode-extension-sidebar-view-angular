@@ -80,6 +80,7 @@
       */
      indexHtml = indexHtml.replace(matchLinks, toUri);
  
+     // Dead Code (Unnecessary code)
      // writeToFile(this.extensionPath, webview);
  
      return indexHtml;
@@ -91,13 +92,28 @@
   * @param context vscode extension context
   */
  export function activate(context: vscode.ExtensionContext) {
-   const provider = new WebPanel(context);
+   
+  const provider = new WebPanel(context);
+
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(WebPanel.viewType, provider)
+  );
+
+   const startDiscussionCommand = 'editor.startDiscussion';
+
+   const startDiscussionCmdHandler = (comandName: string = 'Discussion') => {
+    console.log(`Start ${comandName} Clicked!!!`);
+    vscode.window.showInformationMessage(`Start ${comandName} Clicked!!!`);
+  };
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(startDiscussionCommand, startDiscussionCmdHandler)
+  );
  
-   context.subscriptions.push(
-     vscode.window.registerWebviewViewProvider(WebPanel.viewType, provider)
-   );
+   
  }
  
+ /*
  
  function writeToFile(extensionPath: string, webview: vscode.Webview) {
    
@@ -126,4 +142,4 @@
  
  }
  
- 
+ */

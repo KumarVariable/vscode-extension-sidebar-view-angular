@@ -16,7 +16,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:angular.sidebar.view"
+    "onView:angular.sidebar.view",
+    "onCommand:editor.startDiscussion"
   ],
   "main": "./dist/apps/vs-code/extension-src/extension.js",
   "contributes": {
@@ -35,6 +36,28 @@
           "id": "angular.sidebar.view",
           "type": "webview",
           "name": "Angular Extension View"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "editor.startDiscussion",
+        "title": "Start Discussion"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "editor.startDiscussion",
+        "key": "ctrl+shift+b",
+        "when": "editorTextFocus || editorHasSelection"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "editor.startDiscussion",
+          "group": "navigation",
+          "when": "editorTextFocus || editorHasSelection"
         }
       ]
     }
