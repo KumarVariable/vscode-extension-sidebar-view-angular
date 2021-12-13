@@ -43,6 +43,7 @@
    private _getHtmlForWebview(webview: vscode.Webview): string {
      
      // path to dist folder
+     /*
      const appDistPath = path.join(
        this.extensionPath,
        'dist',
@@ -50,6 +51,13 @@
        'vs-code',
        'angular'
      );
+     */
+
+     const appDistPath = path.join(
+      this.extensionPath,
+      'dist',
+      'extension-src'
+    );
  
      const appDistPathUri = vscode.Uri.file(appDistPath);
  
