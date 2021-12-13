@@ -1,12 +1,13 @@
 {
     "compilerOptions": {
+      "baseUrl": "./",
       "module": "commonjs",
       "target": "es6",
-      "outDir": "dist/apps/vs-code",
+      "outDir": "dist",
       "lib": ["es6", "dom"],
       "sourceMap": true,
       "rootDir": ".",
-      "strict": true
+      "strict": true,
     },
     "include": ["extension-src"],
     "exclude": ["node_modules/*", ".vscode-test", ".vscode/*"]

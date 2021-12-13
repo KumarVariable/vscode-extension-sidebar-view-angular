@@ -19,7 +19,7 @@
     "onView:angular.sidebar.view",
     "onCommand:editor.startDiscussion"
   ],
-  "main": "./dist/apps/vs-code/extension-src/extension.js",
+  "main": "./dist/extension-src/extension.js",
   "contributes": {
     "viewsContainers": {
       "activitybar": [
