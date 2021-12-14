@@ -33,13 +33,11 @@
  
      webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
-     let uriWithVSCodeScheme = getUriWithVSCodeScheme(this.vscodeExtensionContext, webviewView.webview);
-
-     let uriWithHttpScheme = getUriWithHttpScheme(this.vscodeExtensionContext, webviewView.webview);
-
-     const vscodeUri = getVSCodeUriPath(uriWithVSCodeScheme);
+    
      
-     const httpUri = getHttpUriPath(uriWithHttpScheme);
+
+     let vscodeUri = getVSCodeUriScheme(this.vscodeExtensionContext, webviewView.webview);
+     let httpUri = getHttpUriScheme(this.vscodeExtensionContext, webviewView.webview);
 
      webviewView.webview.postMessage(
        { 
@@ -134,47 +132,32 @@ function getWebviewOptions(extensionUri: vscode.Uri): vscode.WebviewOptions {
 }
 
 
-function getUriWithVSCodeScheme(vscodeExtensionContext: vscode.ExtensionContext, webview: vscode.Webview) {
+function getVSCodeUriScheme(vscodeExtensionContext: vscode.ExtensionContext, webview: vscode.Webview) {
   
-  const destinationLocation = "dist/extension-src/";
+  let destinationLocation = "dist/extension-src/";
 
-  const basePathOnDisk = vscode.Uri.joinPath(vscodeExtensionContext.extensionUri, destinationLocation);
-  const basePathURI = (basePathOnDisk).with({ 'scheme': 'vscode-resource' });
+  let basePathOnDisk = vscode.Uri.joinPath(vscodeExtensionContext.extensionUri, destinationLocation);
+  let basePathURI = (basePathOnDisk).with({ 'scheme': 'vscode-resource' });
+
+  let vscodeUri = basePathURI.toString(true);
+
  
-  return basePathURI;
+  return vscodeUri;
 }
 
-function getUriWithHttpScheme(vscodeExtensionContext: vscode.ExtensionContext, webview: vscode.Webview) {
+function getHttpUriScheme(vscodeExtensionContext: vscode.ExtensionContext, webview: vscode.Webview) {
   
-  const destinationLocation = "dist/extension-src/";
+  let destinationLocation = "dist/extension-src/";
 
   const basePathOnDisk = vscodeExtensionContext.asAbsolutePath(destinationLocation);
   const basePathURI = webview.asWebviewUri(vscode.Uri.file(basePathOnDisk));
 
-  return basePathURI;
+  let httpUri = basePathURI.toString(true);
+
+  return httpUri;
 }
 
 export function deactivate() {
   console.log("................ DEACTIVATED.................");
-}
-
-function getVSCodeUriPath(uriWithVSCodeScheme: vscode.Uri) {
-    
-  let vscodescheme = uriWithVSCodeScheme.scheme;
-  let vscodepath = uriWithVSCodeScheme.path;
-     
-  let vscodeUri = vscodescheme.concat(":").concat(vscodepath);
-
-  return vscodeUri;
-}
-
-function getHttpUriPath(uriWithHttpScheme: vscode.Uri) {
-  let scheme = uriWithHttpScheme.scheme;
-  let authority = uriWithHttpScheme.authority;
-  let path = uriWithHttpScheme.path;
-
-  let httpUri = scheme.concat("://").concat(authority).concat(path);
-
-  return httpUri;
 }
  
