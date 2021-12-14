@@ -16,9 +16,10 @@ export class AppComponent {
   vscodeAssetPath : any;
   vscodeJson: any;
 
+  
   constructor(){
     console.log((data as any).default);
-
+    
   }
 
   ngOnInit() {

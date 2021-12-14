@@ -14,5 +14,27 @@
 </head>
 <body>
   <app-root></app-root>
+
+  <script>
+
+  // Handle the message inside the webview
+  window.addEventListener('message', event => {
+
+  const extensionFor = "vscode";
+  const message = event.data; // The JSON data our extension sent
+  
+  const vscodeUri = message.vscodeUri;
+
+  const httpUri = message.httpUri;
+
+  localStorage.setItem('vscodeUri', JSON.stringify(vscodeUri));
+  localStorage.setItem('httpUri', JSON.stringify(httpUri));
+  localStorage.setItem('extensionFor', JSON.stringify(extensionFor));
+
+  });
+
+
+  </script>
+
 </body>
 </html>

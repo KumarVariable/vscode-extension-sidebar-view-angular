@@ -62,7 +62,8 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "scripts": []
             }
           },
           "defaultConfiguration": "production"
@@ -78,8 +79,7 @@
             }
           },
           "options": {
-            "browserTarget": "vscode-extension-sidebar-view-angular:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "browserTarget": "vscode-extension-sidebar-view-angular:build"
           },  
           "defaultConfiguration": "development"
         },

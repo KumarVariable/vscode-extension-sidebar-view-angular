@@ -42,7 +42,8 @@
     "commands": [
       {
         "command": "editor.startDiscussion",
-        "title": "Start Discussion"
+        "title": "Start Discussion",
+        "category": "sampleExtension"
       }
     ],
     "keybindings": [
@@ -82,6 +83,8 @@
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
     "angular-in-memory-web-api": "^0.11.0",
+    "node-polyfill-webpack-plugin": "^1.1.4",
+    "path-browserify": "^1.0.1",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
@@ -91,7 +94,7 @@
     "@angular/cli": "~13.0.1",
     "@angular/compiler-cli": "~13.0.0",
     "@types/jasmine": "~3.10.0",
-    "@types/node": "14.x",
+    "@types/node": "^14.18.0",
     "@types/vscode": "^1.62.0",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
