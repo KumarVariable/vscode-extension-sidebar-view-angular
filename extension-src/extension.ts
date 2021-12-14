@@ -28,31 +28,18 @@
      _token: vscode.CancellationToken
    ) {
      this._view = webviewView;
-     
-     webviewView.webview.options = {
-       // Allow scripts in the webview
-       enableScripts: true,
-       localResourceRoots: [
-        this.vscodeExtensionContext.extensionUri
-       ],
-     };
+
+     webviewView.webview.options = getWebviewOptions(this.vscodeExtensionContext.extensionUri);
  
      webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
-     let uriWith_VSCodeScheme = basePathUriWith_VSCodeScheme(this.vscodeExtensionContext, webviewView.webview);
+     let uriWithVSCodeScheme = getUriWithVSCodeScheme(this.vscodeExtensionContext, webviewView.webview);
 
-     let uriWith_HttpScheme = basePathUriWith_HttpScheme(this.vscodeExtensionContext, webviewView.webview);
+     let uriWithHttpScheme = getUriWithHttpScheme(this.vscodeExtensionContext, webviewView.webview);
 
-     let scheme = uriWith_HttpScheme.scheme;
-     let authority = uriWith_HttpScheme.authority;
-     let path = uriWith_HttpScheme.path;
-
-     let httpUri = scheme.concat("://").concat(authority).concat(path);
-
-     let vscodescheme = uriWith_VSCodeScheme.scheme;
-     let vscodepath = uriWith_VSCodeScheme.path;
+     const vscodeUri = getVSCodeUriPath(uriWithVSCodeScheme);
      
-     let vscodeUri = vscodescheme.concat(":").concat(vscodepath);
+     const httpUri = getHttpUriPath(uriWithHttpScheme);
 
      webviewView.webview.postMessage(
        { 
@@ -115,7 +102,7 @@
     vscode.window.registerWebviewViewProvider(WebPanel.viewType, provider)
   );
 
-   const startDiscussionCommand = 'editor.startDiscussion';
+  const startDiscussionCommand = 'editor.startDiscussion';
 
   context.subscriptions.push(
     vscode.commands.registerCommand(startDiscussionCommand, function(){
@@ -136,7 +123,18 @@
 console.log('Hello Start Discussion');
 }
 
-function basePathUriWith_VSCodeScheme(vscodeExtensionContext: vscode.ExtensionContext, webview: vscode.Webview) {
+function getWebviewOptions(extensionUri: vscode.Uri): vscode.WebviewOptions {
+	return {
+		// Enable javascript in the webview
+		enableScripts: true,
+
+		// And restrict the webview to only loading content from our extension's `dist` directory.
+		localResourceRoots: [vscode.Uri.joinPath(extensionUri, 'dist')]
+	};
+}
+
+
+function getUriWithVSCodeScheme(vscodeExtensionContext: vscode.ExtensionContext, webview: vscode.Webview) {
   
   const destinationLocation = "dist/extension-src/";
 
@@ -146,7 +144,7 @@ function basePathUriWith_VSCodeScheme(vscodeExtensionContext: vscode.ExtensionCo
   return basePathURI;
 }
 
-function basePathUriWith_HttpScheme(vscodeExtensionContext: vscode.ExtensionContext, webview: vscode.Webview) {
+function getUriWithHttpScheme(vscodeExtensionContext: vscode.ExtensionContext, webview: vscode.Webview) {
   
   const destinationLocation = "dist/extension-src/";
 
@@ -158,5 +156,25 @@ function basePathUriWith_HttpScheme(vscodeExtensionContext: vscode.ExtensionCont
 
 export function deactivate() {
   console.log("................ DEACTIVATED.................");
+}
+
+function getVSCodeUriPath(uriWithVSCodeScheme: vscode.Uri) {
+    
+  let vscodescheme = uriWithVSCodeScheme.scheme;
+  let vscodepath = uriWithVSCodeScheme.path;
+     
+  let vscodeUri = vscodescheme.concat(":").concat(vscodepath);
+
+  return vscodeUri;
+}
+
+function getHttpUriPath(uriWithHttpScheme: vscode.Uri) {
+  let scheme = uriWithHttpScheme.scheme;
+  let authority = uriWithHttpScheme.authority;
+  let path = uriWithHttpScheme.path;
+
+  let httpUri = scheme.concat("://").concat(authority).concat(path);
+
+  return httpUri;
 }
  
