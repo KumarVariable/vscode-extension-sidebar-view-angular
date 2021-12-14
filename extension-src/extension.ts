@@ -43,10 +43,21 @@
 
      let uriWith_HttpScheme = basePathUriWith_HttpScheme(this.vscodeExtensionContext, webviewView.webview);
 
+     let scheme = uriWith_HttpScheme.scheme;
+     let authority = uriWith_HttpScheme.authority;
+     let path = uriWith_HttpScheme.path;
+
+     let httpUri = scheme.concat("://").concat(authority).concat(path);
+
+     let vscodescheme = uriWith_VSCodeScheme.scheme;
+     let vscodepath = uriWith_VSCodeScheme.path;
+     
+     let vscodeUri = vscodescheme.concat(":").concat(vscodepath);
+
      webviewView.webview.postMessage(
        { 
-         vscodeUri: uriWith_VSCodeScheme,
-         httpUri: uriWith_HttpScheme,
+         vscodeUri: vscodeUri,
+         httpUri: httpUri,
         }
       );
 
@@ -85,6 +96,8 @@
       * 'dist/angular' after running ng build
       */
     indexHtml = indexHtml.replace(matchLinks, toUri);
+
+    console.log('...................... activation called');
     
     return indexHtml;
    }
@@ -95,8 +108,6 @@
   * @param context vscode extension context
   */
  export function activate(context: vscode.ExtensionContext) {
-
-  console.log('activation called');
    
   const provider = new WebPanel(context);
 
@@ -111,6 +122,8 @@
       startDiscussion();
     })
   );
+
+ 
  
  }
 
@@ -141,5 +154,9 @@ function basePathUriWith_HttpScheme(vscodeExtensionContext: vscode.ExtensionCont
   const basePathURI = webview.asWebviewUri(vscode.Uri.file(basePathOnDisk));
 
   return basePathURI;
+}
+
+export function deactivate() {
+  console.log("................ DEACTIVATED.................");
 }
  

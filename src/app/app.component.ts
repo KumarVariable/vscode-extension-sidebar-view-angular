@@ -13,21 +13,36 @@ import * as data from '../app/vscodeSpecificLocation.json';
 export class AppComponent {
   title = 'Users';
 
-  vscodeAssetPath : any;
-  vscodeJson: any;
+  public extensionFor: any;
+  public httpUri : any;
+  public vscodeUri : any;
+  public vscodeAssetPath: any;
+  
 
   
   constructor(){
-    console.log((data as any).default);
+    // console.log((data as any).default);
+
+   
+    this.extensionFor = localStorage.getItem('extensionFor');
+    this.httpUri = localStorage.getItem('httpUri');
+    this.vscodeUri = localStorage.getItem('vscodeUri');
+
+    console.log("ANGULAR 1 " , this.extensionFor);
+    console.log("ANGULAR 2 httpUri " , this.httpUri);
+    console.log("ANGULAR 2 vscodeUri " , this.vscodeUri);
     
   }
 
   ngOnInit() {
-    this.vscodeJson = (data as any).default;
+
     this.vscodeAssetPath = '';
 
-    if(this.vscodeJson.extensionFor == 'vscode') {
-      this.vscodeAssetPath = this.vscodeJson.resourcePath;
+    if(this.extensionFor == 'vscode') {
+      console.log("inside if condition ");
+      this.vscodeAssetPath = this.httpUri;
+     // this.vscodeAssetPath = this.vscodeSchemeUriPath;
+     
     }
   }
 }
