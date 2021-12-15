@@ -9,6 +9,9 @@ import { getWebviewOptions, getVSCodeUriScheme, getHttpUriScheme, getHTMLForWebv
  * Manages webview panels
  */
 class WebPanel implements vscode.WebviewViewProvider {
+
+  public vscodeUriPath: string;
+  public httpUriPath: string;
   public static readonly viewType = 'angular.sidebar.view';
 
   private _view?: vscode.WebviewView;
@@ -17,6 +20,8 @@ class WebPanel implements vscode.WebviewViewProvider {
 
   constructor(context: vscode.ExtensionContext) {
     this.extensionContext = context;
+    this.vscodeUriPath = "";
+    this.httpUriPath = "";
   }
 
   public resolveWebviewView(
@@ -36,13 +41,13 @@ class WebPanel implements vscode.WebviewViewProvider {
       console.log('............ onDidDispose Event happened:...... ' + event);
     });
 
-    let vscodeUriPath = getVSCodeUriScheme(this.extensionContext,webviewView.webview);
+    this.vscodeUriPath = getVSCodeUriScheme(this.extensionContext,webviewView.webview);
 
-    let httpUriPath = getHttpUriScheme(this.extensionContext,webviewView.webview);
+    this.httpUriPath = getHttpUriScheme(this.extensionContext,webviewView.webview);
 
     webviewView.webview.postMessage({
-      vscodeUri: vscodeUriPath,
-      httpUri: httpUriPath,
+      vscodeUri: this.vscodeUriPath,
+      httpUri: this.httpUriPath,
     });
   }
 
