@@ -4,6 +4,7 @@ import { USERS } from '../mock-users-data';
 import { UserService } from '../user.service';
 import { AppMessageService } from '../app-message.service';
 
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -16,6 +17,8 @@ export class UsersComponent implements OnInit {
   //define componet property - list of dummy users
   // from mock-users-data.ts
   users: User[] = [];
+
+  localPaths?: string [];
 
   // Inject User Service (Dependency Injection) into User component
   constructor(
